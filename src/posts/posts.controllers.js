@@ -1,12 +1,13 @@
-const Posts = require ("./posts.model");
+const mongoose = require ("mongoose");
+const PostMessage = require ("./posts.model");
 
 exports.createPost = async (req, res) => {
     const { title, message, selectedFile, creator, tags } = req.body;
 
-    const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags })
+    const PostMessage = new PostMessage({ title, message, selectedFile, creator, tags })
 
     try {
-        await newPostMessage.save();
+        await new PostMessage.save();
 
         res.status(201).json(newPostMessage );
     } catch (error) {
@@ -64,6 +65,7 @@ exports.likePost = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    console.log(error)
     
     const post = await PostMessage.findById(id);
 
